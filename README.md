@@ -15,6 +15,19 @@
 
 
 ### 🧐 Como Usar
+
+Antes de configurar e rodar a aplicação precisamos gerar uma API Key da SendGrid para o envio de emails, saiba como gerar a [aqui](https://www.twilio.com/blog/send-emails-using-the-sendgrid-api-with-dotnetnet-6-and-csharp). Depois da criação da API Key, podemos configurar ela de forma segura:
+
+```bash
+# Ainda em /src/CRON.Api execute
+$ dotnet user-secrets init
+
+# seta o valor da key para "SendGridApiKey"
+$ dotnet user-secrets set SendGridApiKey [Key que você gerou aqui]
+```
+
+Com o sucesso de setar a a key da API, podemos prosseguir.
+
 ##### Rodando os Testes de Endpoints
 Na raíz do diretório basta executar os seguintes comandos:
 
@@ -47,13 +60,7 @@ $ dotnet ef database update -c DataContext -p ../CRON.Data/CRON.Data.csproj
 ```
 
 #### Rodando a Aplicação
-Após a configuração do EF com o banco de dados, temos que configurar a API Key, saiba como gerar a [API KEY](https://www.twilio.com/blog/send-emails-using-the-sendgrid-api-with-dotnetnet-6-and-csharp). Depois da criação da API Key, podemos configurar ela de forma segura:
-
-
-```bash
-# Ainda em /src/CRON.Api execute
-$ dotnet user-secrets set SendGridApiKey [Key que você gerou aqui]
-```
+Após a configuração do EF com o banco de dados, podemos rodar a aplicação:
 
 Com o sucesso da criação da Key, podemos executar a aplicação:
 
