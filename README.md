@@ -16,12 +16,12 @@
 
 ### 🧐 Como Usar
 
-Antes de configurar e rodar a aplicação precisamos de informações de um provedor de email para simular um envio de email de alerta. Podemos acessar [ethereal](https://ethereal.email/create) e ele nos fornecerá um email falso com informações essas informações necessárias. Após o fornecimento do email, mude em [src/CRON.Api/appsettings.Development.json] a propriedade "EmailConfiguration" com os respectivos valores.
+Antes de configurar e rodar a aplicação precisamos de informações de um provedor de email para simular um envio de email de alerta. Podemos acessar [ethereal](https://ethereal.email/create) e criar a conta. Após o fornecimento da informações, mude em [src/CRON.Api/appsettings.Development.json](src/CRON.Api/appsettings.Development.json) a propriedade "EmailConfiguration" com os seus respectivos valores.
 
 Esse serviço de email será usado para caso dê algo de errado na sincronização dos produtos com o banco de dados. Para mais informações [acesse](https://jasonwatmore.com/post/2022/03/11/net-6-send-an-email-via-smtp-with-mailkit)
 
-##### Rodando os Testes de Endpoints
-Na raíz do diretório [/] basta executar os seguintes comandos:
+#### Rodando os Testes Unitários de Endpoints
+Na raíz do diretório basta executar os seguintes comandos:
 
 ```bash
 # Para listar todos os testes 
@@ -31,7 +31,7 @@ $ dotnet test -t
 $ dotnet test
 ```
 
-##### Configurando o EF com Mysql
+#### Configurando o EF com Mysql
 
 Acessando [src/CRON.Api](src/CRON.Api) mude em [src/CRON.Api/appsettings.Development.json](src/CRON.Api/appsettings.Development.json), os valores de User ID e Password da Connection String, de acordo com que o que você definiu durante a instalação do MySQL. 
 
@@ -86,9 +86,5 @@ services.AddQuartzServer(options =>
     options.WaitForJobsToComplete = true;
 });
 ```
-
-#### Sobre o sistema de alertas 
-Para o sistema de alertas, em caso de alguma falha na sincronização dos produtos com o banco de dados, foi optado pelo envio de emails. 
-
 
 #### This is a challenge by Coodesh
