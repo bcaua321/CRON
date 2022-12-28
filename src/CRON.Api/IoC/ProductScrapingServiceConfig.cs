@@ -3,7 +3,7 @@ using CRON.Scraping;
 using CRON.Scraping.ProductScraping;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CRON.Sheduler.IoC;
+namespace CRON.Api.IoC;
 public static class ProductScrapingServiceConfig
 {
     public static void UseProductScraping(this IServiceCollection services)
