@@ -1,41 +1,46 @@
-﻿using CRON.Application.Intefaces.Email;
-using Microsoft.Extensions.Configuration;
-using SendGrid;
-using SendGrid.Helpers.Mail;
+﻿using CRON.Application.DTO;
+using CRON.Application.Intefaces.Email;
+using MailKit.Security;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using MimeKit.Text;
 
 namespace CRON.Application.Email;
 public class EmailSend : IEmailSend
 {
-    private IConfiguration _configuration { get; }
-    private ISendGridClient _client { get; }
-    public EmailSend(IConfiguration configuration, ISendGridClient client)
+    private EmailConfiguration _configuration { get;}
+    public EmailSend(IOptions<EmailConfiguration> configuration)
     {
-        _configuration = configuration;
-        _client = client;
+        _configuration = configuration.Value;
     }
 
     public async Task SendEmail(string subject, string body)
     {
-        var fromEmail = _configuration.GetSection("from").Value;
-        var fromName = _configuration.GetSection("fromName").Value;
-        var toEmail = _configuration.GetSection("to").Value;
-
-        var msg = new SendGridMessage()
-        {
-            From = new EmailAddress(fromEmail, fromName),
-            Subject = subject,
-            PlainTextContent = body
-        };
-
-        msg.AddTo(new EmailAddress(toEmail));
+        var email = ConstructEmail(subject, body);
 
         try
         {
-            var response = await _client.SendEmailAsync(msg);
+            using var smtp = new MailKit.Net.Smtp.SmtpClient();
+            await smtp.ConnectAsync(_configuration.Host, _configuration.Port, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_configuration.User, _configuration.Pass);
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
+            Console.WriteLine("Email com erro Enviado.");
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine("Erro ao enviar emal" + e.Message);
         }
+    }
+
+    private MimeMessage ConstructEmail(string subject, string body)
+    {
+        var email = new MimeMessage();
+        email.From.Add(MailboxAddress.Parse(_configuration.From));
+        email.To.Add(MailboxAddress.Parse(_configuration.To));
+        email.Subject = subject;
+        email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>{body}</h1>" };
+
+        return email;
     }
 }

@@ -16,20 +16,12 @@
 
 ### 🧐 Como Usar
 
-Antes de configurar e rodar a aplicação precisamos gerar uma API Key da SendGrid para o envio de emails, saiba como gerar a [aqui](https://www.twilio.com/blog/send-emails-using-the-sendgrid-api-with-dotnetnet-6-and-csharp). Depois da criação da API Key, podemos configurar ela de forma segura:
+Antes de configurar e rodar a aplicação precisamos de informações de um provedor de email para simular um envio de email de alerta. Podemos acessar [ethereal](https://ethereal.email/create) e ele nos fornecerá um email falso com informações essas informações necessárias. Após o fornecimento do email, mude em [src/CRON.Api/appsettings.Development.json] a propriedade "EmailConfiguration" com os respectivos valores.
 
-```bash
-# Ainda em /src/CRON.Api execute
-$ dotnet user-secrets init
-
-# seta o valor da key para "SendGridApiKey"
-$ dotnet user-secrets set SendGridApiKey [Key que você gerou aqui]
-```
-
-Com o sucesso de setar a a key da API, podemos prosseguir.
+Esse serviço de email será usado para caso dê algo de errado na sincronização dos produtos com o banco de dados. Para mais informações [acesse](https://jasonwatmore.com/post/2022/03/11/net-6-send-an-email-via-smtp-with-mailkit)
 
 ##### Rodando os Testes de Endpoints
-Na raíz do diretório basta executar os seguintes comandos:
+Na raíz do diretório [/] basta executar os seguintes comandos:
 
 ```bash
 # Para listar todos os testes 
@@ -61,8 +53,6 @@ $ dotnet ef database update -c DataContext -p ../CRON.Data/CRON.Data.csproj
 
 #### Rodando a Aplicação
 Após a configuração do EF com o banco de dados, podemos rodar a aplicação:
-
-Com o sucesso da criação da Key, podemos executar a aplicação:
 
 ```bash
 # Ainda em /src/CRON.Api
@@ -98,7 +88,7 @@ services.AddQuartzServer(options =>
 ```
 
 #### Sobre o sistema de alertas 
-Para o sistema de alertas, em caso de alguma falha na sincronização dos produtos com o banco de dados, foi optado pelo envio de emails, podendo ser configurado em [src/CRON.Api/appsettings.Development.json](src/CRON.Api/appsettings.Development.json) o destinatário.
+Para o sistema de alertas, em caso de alguma falha na sincronização dos produtos com o banco de dados, foi optado pelo envio de emails. 
 
 
 #### This is a challenge by Coodesh

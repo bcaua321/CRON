@@ -29,6 +29,7 @@ public class ProductJob : IJob
         } 
         catch
         {
+            Console.WriteLine("Erro ao executar o job");
             await EmailSend.SendEmail("Erro de sincronização", $"Erro na execução do Job Scraping de Produtos, Data:{DateTime.Now}.");
         }
 

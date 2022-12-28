@@ -1,7 +1,6 @@
 ﻿using CRON.Api.Extensions;
 using CRON.Api.Filters;
 using CRON.Api.IoC;
-using CRON.Sheduler.IoC;
 
 namespace CRON.Api;
 public class Startup : Interfaces.IStartup
